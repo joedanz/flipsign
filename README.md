@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/9059fb90-1e44-49bc-bb1b-dbad0c0aa0f8
+
 <h1 align="center"><img src="docs/images/logo.png" alt="FlipSign" width="560"></h1>
 
 A full-screen split-flap display for your TV: a 10×22 board of flaps, with all ten lines available for text. A small Node server decides what the board says (a clock, the weather forecast, quotes, or a message you send from your phone), and a full-screen web page animates the flips, clack and all.
