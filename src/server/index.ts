@@ -1,6 +1,7 @@
 import { join } from 'node:path';
 import { serve } from '@hono/node-server';
 import { createApp } from './api/app';
+import { computeBuildId } from './buildId';
 import { Hub } from './hub';
 import { Scheduler } from './scheduler/scheduler';
 import { createStore } from './store/store';
@@ -35,6 +36,7 @@ const { app, refresh } = createApp({
   geocode: (q) => geocode(q),
   onWeatherChange: updateWeather,
   staticRoot: './dist',
+  buildId: computeBuildId('./dist'),
 });
 
 setInterval(safeRefresh, 1000);

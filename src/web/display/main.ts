@@ -1,4 +1,5 @@
 import { BoardRenderer } from './renderer';
+import { watchBuild } from '../shared/buildWatcher';
 import { Clack } from './sound';
 
 const canvas = document.getElementById('board') as HTMLCanvasElement;
@@ -13,6 +14,7 @@ for (const type of ['keydown', 'pointerdown']) window.addEventListener(type, () 
 const STALE_MS = 45_000; // the server pings every 15 s
 let lastEventAt = Date.now();
 let source: EventSource | undefined;
+const onBuild = watchBuild(); // reload after a server upgrade, so the page never runs stale code
 
 function connect(): void {
   source?.close();
@@ -26,6 +28,7 @@ function connect(): void {
     renderer.setGrid(d.grid);
   });
   for (const name of ['state', 'ping']) es.addEventListener(name, () => (lastEventAt = Date.now()));
+  es.addEventListener('hello', (e) => onBuild((JSON.parse((e as MessageEvent<string>).data) as { buildId: string }).buildId));
   es.onerror = () => {
     if (es.readyState === EventSource.CLOSED) setTimeout(connect, 3000); // browsers only auto-retry some failures
   };
