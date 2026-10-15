@@ -1,4 +1,4 @@
-import { CELLS, CHARSET, COLOR_HEX, COLS, charIndex, type Grid } from '../../shared/board/charset';
+import { CELLS, CHARSET, COLOR_HEX, COLS, charIndex, nextFlap, type Grid } from '../../shared/board/charset';
 import { computeMetrics, tileOrigin, type Metrics } from './metrics';
 
 const PAGE_BG = '#0a0a0a';
@@ -112,7 +112,7 @@ export class BoardRenderer {
       let p = (t0 - t.flipStart) / this.flipMs;
       while (p >= 1) {
         // a flap (or several, after a long frame) completed
-        t.cur = (t.cur + 1) % CHARSET.length;
+        t.cur = nextFlap(t.cur, t.target);
         this.onStep?.();
         if (t.cur === t.target) break;
         t.flipStart += this.flipMs;
@@ -185,7 +185,7 @@ export class BoardRenderer {
       this.half(t.cur, true, x, y, halfH);
       this.half(t.cur, false, x, y + halfH, halfH);
     } else {
-      const next = (t.cur + 1) % CHARSET.length;
+      const next = nextFlap(t.cur, t.target);
       this.half(next, true, x, y, halfH); // revealed behind the falling flap
       this.half(t.cur, false, x, y + halfH, halfH); // old bottom until the new flap lands
       let s: number;

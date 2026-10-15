@@ -37,10 +37,20 @@ export function charIndex(ch: string): number {
   return i < 0 ? 0 : i;
 }
 
+const FIRST_COLOR = CHARSET.indexOf('r');
+
+/** The flap after `cur` on the way to `target`. The color flaps only turn up when the target is a color. */
+export function nextFlap(cur: number, target: number): number {
+  const next = (cur + 1) % CHARSET.length;
+  return next >= FIRST_COLOR && target < FIRST_COLOR ? 0 : next;
+}
+
 /** How many forward flips take a tile from `from` to `to`. */
 export function flipSteps(from: string, to: string): number {
-  const n = CHARSET.length;
-  return (charIndex(to) - charIndex(from) + n) % n;
+  const target = charIndex(to);
+  let steps = 0;
+  for (let i = charIndex(from); i !== target; i = nextFlap(i, target)) steps++;
+  return steps;
 }
 
 export function isGrid(v: unknown): v is Grid {
