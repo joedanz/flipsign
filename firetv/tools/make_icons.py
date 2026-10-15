@@ -58,12 +58,19 @@ def icon(size, folder):
     img = Image.new('RGBA', (s, s), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     d.rounded_rectangle([0, 0, s - 1, s - 1], radius=s // 8, fill='#0d0d0d')
-    # two flap tiles, "FS", filling the square (Fire OS letterboxes square icons in a wide slot)
-    pad, gap = s // 14, s // 28
-    tw, th = (s - 2 * pad - gap) // 2, s - 4 * pad
+    # "FS" on two flap tiles, with the edges of the neighbouring tiles cut off at each side,
+    # so it reads as a slice of a longer board (Fire OS letterboxes square icons in a wide slot)
+    gap = s // 28
+    tw, th = int(s * 0.36), int(s * 0.8)
+    x0, y0 = (s - 2 * tw - gap) // 2, (s - th) // 2
     f = font(int(tw * 1.05))
+    tile(d, x0 - gap - tw, y0, tw, th)  # left neighbour, mostly off the edge
     for i, ch in enumerate('FS'):
-        tile(d, pad + i * (tw + gap), 2 * pad, tw, th, ch, f=f)
+        tile(d, x0 + i * (tw + gap), y0, tw, th, ch, f=f)
+    tile(d, x0 + 2 * (tw + gap), y0, tw, th)  # right neighbour
+    mask = Image.new('L', (s, s), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, s - 1, s - 1], radius=s // 8, fill=255)
+    img.putalpha(mask)
     out = os.path.join(RES, folder)
     os.makedirs(out, exist_ok=True)
     img.resize((size, size), Image.LANCZOS).save(os.path.join(out, 'ic_launcher.png'), optimize=True)
