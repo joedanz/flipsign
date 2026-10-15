@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FlipSign</string>
+    <string name="cant_reach">Can\'t reach the FlipSign server at %1$s\n(%2$s)\n\nRetrying every 10 seconds. Press ≡ (Menu) on the remote to change the address.</string>
+    <string name="setup_title">FlipSign setup</string>
+    <string name="setup_intro">Enter the address of your FlipSign server, the same address you use for the control page on your phone, without /control/. For example: http://192.168.1.50:3000</string>
+    <string name="setup_hint">http://192.168.1.50:3000</string>
+    <string name="setup_boot">Start FlipSign when the Fire TV turns on</string>
+    <string name="setup_save">Save and show the board</string>
+    <string name="setup_save_anyway">Save anyway</string>
+    <string name="checking">Checking %1$s …</string>
+    <string name="no_server">No FlipSign server answered at %1$s. Check the address and that the server is running, or save it anyway to keep retrying.</string>
+    <string name="boot_ready">Start at boot: ready.</string>
+    <string name="boot_needs_setup">Start at boot needs a one-time step on this Fire TV (granting \"display over other apps\" from a computer). See \"Start at boot\" in the FlipSign README.</string>
+    <string name="setup_help">Press ≡ (Menu) on the remote any time to come back here. On the board, Back is ignored so a stray press can\'t take the sign down; Home leaves FlipSign. FlipSign %1$s · github.com/joedanz/flipsign</string>
+</resources>

@@ -1,0 +1,33 @@
+{
+  "name": "flipsign",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A 6×22 split-flap display for your TV: clock, weather and quotes, controlled from your phone.",
+  "license": "MIT",
+  "keywords": ["split-flap", "display", "tv", "fire-tv", "home-server"],
+  "author": "Joe Danziger",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev:server": "node --watch --import tsx src/server/index.ts",
+    "dev:web": "vite --config vite.config.ts",
+    "build": "vite build --config vite.config.ts",
+    "start": "node --import tsx src/server/index.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.5",
+    "hono": "^4.13.13",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.4"
+  }
+}

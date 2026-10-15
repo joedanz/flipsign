@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlipSign</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #0a0a0a; overflow: hidden; cursor: none; }
+    #board { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; }
+    #debug { position: fixed; left: 12px; top: 8px; font: 16px/1.4 monospace; color: #8f8; z-index: 2; white-space: pre; }
+  </style>
+</head>
+<body>
+  <canvas id="board"></canvas>
+  <script type="module" src="./display/main.ts"></script>
+</body>
+</html>

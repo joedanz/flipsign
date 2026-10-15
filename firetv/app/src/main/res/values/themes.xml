@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.FlipSign" parent="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
+    <style name="Theme.FlipSign.Setup" parent="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
+        <item name="android:windowBackground">@color/setup_background</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:buttonStyle">@style/FlipSign.Button</item>
+        <item name="android:checkboxStyle">@style/FlipSign.CheckBox</item>
+    </style>
+
+    <style name="FlipSign.Button" parent="@android:style/Widget.DeviceDefault.Button">
+        <item name="android:background">@drawable/button_bg</item>
+        <item name="android:textColor">@color/button_text</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <style name="FlipSign.CheckBox" parent="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox">
+        <item name="android:background">@drawable/focus_outline</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <color name="setup_background">#FF111111</color>
+    <color name="accent">#FFFFCC33</color>
+</resources>

@@ -1,0 +1,55 @@
+plugins {
+    id 'com.android.application'
+}
+
+// The app's version follows the server's package.json, so a release tag covers both.
+def appVersion = new groovy.json.JsonSlurper().parse(rootProject.file('../package.json')).version as String
+def (major, minor, patch) = appVersion.tokenize('.').collect { it.replaceAll(/\D.*/, '') as int }
+
+// Release signing key lives outside the repo (see firetv/README.md). Without it, only debug builds work.
+def signingProps = new Properties()
+def signingFile = new File(System.getenv('FLIPSIGN_KEYSTORE_PROPERTIES') ?: "${System.getProperty('user.home')}/.config/flipsign/keystore.properties")
+if (signingFile.exists()) signingFile.withInputStream { signingProps.load(it) }
+
+android {
+    namespace 'io.github.joedanz.flipsign'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'io.github.joedanz.flipsign'
+        minSdk 25 // Fire OS 6 and newer
+        targetSdk 34
+        versionCode major * 10000 + minor * 100 + patch
+        versionName appVersion
+    }
+
+    signingConfigs {
+        if (signingFile.exists()) {
+            release {
+                storeFile new File(signingFile.parentFile, signingProps.getProperty('storeFile'))
+                storePassword signingProps.getProperty('storePassword')
+                keyAlias signingProps.getProperty('keyAlias')
+                keyPassword signingProps.getProperty('keyPassword')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (signingFile.exists()) signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    lint {
+        abortOnError true
+        warningsAsErrors true
+        // TV-only app: the banner is only used at xhdpi (the Fire TV density), and nothing needs cloud backup.
+        disable 'IconMissingDensityFolder', 'DataExtractionRules'
+    }
+}
