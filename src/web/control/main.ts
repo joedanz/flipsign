@@ -1,4 +1,3 @@
-import { MARGIN_ROWS } from '../display/metrics';
 import { BoardRenderer } from '../display/renderer';
 import { api, type StateResponse } from './api';
 import { setupCompose } from './compose';
@@ -8,7 +7,7 @@ import { renderSettings, setupSettings } from './settings';
 import { setupTabs } from './tabs';
 import { $, attempt } from './ui';
 
-const live = new BoardRenderer($<HTMLCanvasElement>('#live-board'), { instant: true, fill: 0.98, marginRows: MARGIN_ROWS });
+const live = new BoardRenderer($<HTMLCanvasElement>('#live-board'), { instant: true, fill: 0.98 });
 let state: StateResponse | undefined;
 let clockOffset = 0; // server clock minus this device's clock
 

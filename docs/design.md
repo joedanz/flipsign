@@ -1,6 +1,6 @@
 # FlipSign — Design Spec
 
-> Design notes from the initial build. Since then the display draws two blank margin rows above and below the 6×22 grid (`MARGIN_ROWS`) to fill a 16:9 screen, and the control page uses bottom tabs.
+> Design notes from the initial build, which used a 6×22 board. Since then the board grew to 10×22 (`ROWS` in `src/shared/board/charset.ts`) so it fills a 16:9 screen, with short content centered vertically, and the control page uses bottom tabs.
 
 **Date:** 2026-10-14
 **Status:** Approved in brainstorming, pending written-spec review

@@ -1,6 +1,5 @@
 import { COLOR_CHARS, COLOR_HEX, type ColorName } from '../../shared/board/charset';
 import { isBlankGrid, layoutText } from '../../shared/board/layout';
-import { MARGIN_ROWS } from '../display/metrics';
 import { BoardRenderer } from '../display/renderer';
 import { api } from './api';
 import { $, attempt, toast } from './ui';
@@ -9,7 +8,7 @@ export function setupCompose(reload: () => Promise<void>): void {
   const text = $<HTMLTextAreaElement>('#text');
   const warn = $('#warn');
   const duration = $<HTMLSelectElement>('#duration');
-  const preview = new BoardRenderer($<HTMLCanvasElement>('#preview'), { instant: true, fill: 0.98, marginRows: MARGIN_ROWS });
+  const preview = new BoardRenderer($<HTMLCanvasElement>('#preview'), { instant: true, fill: 0.98 });
 
   const update = () => {
     const r = layoutText(text.value);

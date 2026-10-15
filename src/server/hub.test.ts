@@ -40,7 +40,7 @@ describe('Hub', () => {
     const hub = new Hub();
     hub.update(view(), settings, 0);
     const w = watch(hub);
-    hub.update(view({ grid: 'A'.padEnd(132, ' ') }), settings, 1000);
+    hub.update(view({ grid: 'A'.padEnd(220, ' ') }), settings, 1000);
     expect(w.names()).toEqual(['grid']);
   });
 

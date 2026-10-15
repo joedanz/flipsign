@@ -15,20 +15,20 @@ describe('layoutText', () => {
 
   it('centers one line horizontally and vertically', () => {
     const rows = gridRows(grid('HI'));
-    expect(rows[2]).toBe(' '.repeat(10) + 'HI' + ' '.repeat(10));
+    expect(rows[4]).toBe(' '.repeat(10) + 'HI' + ' '.repeat(10));
     expect(rows.filter((r) => r.trim()).length).toBe(1);
   });
 
   it('wraps at word boundaries', () => {
-    expect(lines('THE QUICK BROWN FOX JUMPS OVER')).toEqual(['', '', 'THE QUICK BROWN FOX', 'JUMPS OVER', '', '']);
+    expect(lines('THE QUICK BROWN FOX JUMPS OVER')).toEqual(['', '', '', '', 'THE QUICK BROWN FOX', 'JUMPS OVER', '', '', '', '']);
   });
 
   it('hard-splits a word longer than the board is wide', () => {
-    expect(lines('A'.repeat(30))).toEqual(['', '', 'A'.repeat(22), 'A'.repeat(8), '', '']);
+    expect(lines('A'.repeat(30))).toEqual(['', '', '', '', 'A'.repeat(22), 'A'.repeat(8), '', '', '', '']);
   });
 
   it('keeps explicit newlines and blank lines', () => {
-    expect(lines('A\n\nB')).toEqual(['', 'A', '', 'B', '', '']);
+    expect(lines('A\n\nB')).toEqual(['', '', '', 'A', '', 'B', '', '', '', '']);
   });
 
   it('trims leading and trailing blank lines', () => {
@@ -40,21 +40,24 @@ describe('layoutText', () => {
   });
 
   it('uppercases and strips unsupported characters', () => {
-    expect(lines('hello, wor~ld! 🎉')[2]).toBe('HELLO, WORLD!');
+    expect(lines('hello, wor~ld! 🎉')[4]).toBe('HELLO, WORLD!');
   });
 
   it('maps phone smart punctuation and accents to board characters', () => {
-    expect(lines('Don’t say “hi” — ok…')[2]).toBe('DON\'T SAY "HI" - OK...');
-    expect(lines('café')[2]).toBe('CAFE');
+    expect(lines('Don’t say “hi” — ok…')[4]).toBe('DON\'T SAY "HI" - OK...');
+    expect(lines('café')[4]).toBe('CAFE');
   });
 
   it('turns color tokens into color tiles and drops unknown tokens', () => {
-    expect(lines('a{red}{BLUE}{nope}b')[2]).toBe('ArbB');
+    expect(lines('a{red}{BLUE}{nope}b')[4]).toBe('ArbB');
   });
 
   it('reports overflow instead of truncating', () => {
-    expect(layoutText('A\nB\nC\nD\nE\nF\nG')).toEqual({ ok: false, overflow: 'G' });
-    expect(layoutText('A\nB\nC\nD\nE\nF').ok).toBe(true);
+    expect(layoutText('A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK')).toEqual({ ok: false, overflow: 'K' });
+  });
+
+  it('uses all ten rows when the text needs them', () => {
+    expect(lines('A\nB\nC\nD\nE\nF\nG\nH\nI\nJ')).toEqual(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']);
   });
 
   it('lays out an emoji-only message as a blank board (callers reject it)', () => {
@@ -69,8 +72,8 @@ describe('layoutText', () => {
 });
 
 describe('layoutLines / padCenter', () => {
-  it('centers each line and uses six rows from the top when given six', () => {
-    const rows = gridRows(layoutLines(['', 'AB', '', '', '', '']));
+  it('centers each line and uses ten rows from the top when given ten', () => {
+    const rows = gridRows(layoutLines(['', 'AB', '', '', '', '', '', '', '', '']));
     expect(rows[1]).toBe(' '.repeat(10) + 'AB' + ' '.repeat(10));
   });
 

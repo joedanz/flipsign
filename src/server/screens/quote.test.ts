@@ -11,7 +11,7 @@ describe('layoutQuote', () => {
     expect(r.ok).toBe(true);
     if (!r.ok) return;
     const rows = gridRows(r.grid).map((x) => x.trim());
-    expect(rows).toEqual(['', 'KNOWLEDGE IS POWER.', '', '- FRANCIS BACON', '', '']);
+    expect(rows).toEqual(['', '', '', 'KNOWLEDGE IS POWER.', '', '- FRANCIS BACON', '', '', '', '']);
   });
 
   it('works without an author', () => {
@@ -20,13 +20,13 @@ describe('layoutQuote', () => {
   });
 
   it('drops the blank line before the author when that is the only way to fit', () => {
-    const text = Array(10).fill('ABCDEFGHIJ').join(' '); // wraps to 5 lines: 5 + blank + author would be 7 rows
+    const text = Array(18).fill('ABCDEFGHIJ').join(' '); // wraps to 9 lines: 9 + blank + author would be 11 rows
     const r = layoutQuote({ text, author: 'X' });
     expect(r.ok).toBe(true);
     if (!r.ok) return;
     const rows = gridRows(r.grid).map((x) => x.trim());
-    expect(rows[4]).toBe('ABCDEFGHIJ ABCDEFGHIJ');
-    expect(rows[5]).toBe('- X');
+    expect(rows[8]).toBe('ABCDEFGHIJ ABCDEFGHIJ');
+    expect(rows[9]).toBe('- X');
   });
 
   it('rejects a quote that cannot fit', () => {

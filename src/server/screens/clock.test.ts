@@ -24,6 +24,6 @@ describe('formatTime', () => {
 describe('renderClock', () => {
   it('shows weekday, date and time on separate rows', () => {
     const rows = gridRows(renderClock(at(9, 42), true)).map((r) => r.trim());
-    expect(rows).toEqual(['', 'WEDNESDAY', 'OCT 14', '', '9:42 AM', '']);
+    expect(rows).toEqual(['', '', '', 'WEDNESDAY', 'OCT 14', '', '9:42 AM', '', '', '']);
   });
 });
