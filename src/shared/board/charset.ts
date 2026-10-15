@@ -1,4 +1,4 @@
-export const ROWS = 6;
+export const ROWS = 10;
 export const COLS = 22;
 export const CELLS = ROWS * COLS;
 

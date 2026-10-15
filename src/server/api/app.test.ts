@@ -40,9 +40,9 @@ describe('POST /api/message', () => {
 
   it('rejects text that does not fit on the board', async () => {
     const h = makeApp();
-    const res = await h.json('/api/message', 'POST', { text: 'A\nB\nC\nD\nE\nF\nG', duration: '1h' });
+    const res = await h.json('/api/message', 'POST', { text: 'A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK', duration: '1h' });
     expect(res.status).toBe(422);
-    expect(((await res.json()) as { error: string }).error).toContain('G');
+    expect(((await res.json()) as { error: string }).error).toContain('K');
     expect(h.store.get().override).toBeNull();
   });
 

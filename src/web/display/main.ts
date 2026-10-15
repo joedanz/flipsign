@@ -1,11 +1,10 @@
-import { MARGIN_ROWS } from './metrics';
 import { BoardRenderer } from './renderer';
 import { Clack } from './sound';
 
 const canvas = document.getElementById('board') as HTMLCanvasElement;
 const clack = new Clack();
 const params = new URLSearchParams(location.search);
-const renderer = new BoardRenderer(canvas, { fill: 0.98, marginRows: MARGIN_ROWS, instant: params.has('instant'), onStep: () => clack.play() });
+const renderer = new BoardRenderer(canvas, { fill: 0.98, instant: params.has('instant'), onStep: () => clack.play() });
 
 window.addEventListener('resize', () => renderer.resize());
 for (const type of ['keydown', 'pointerdown']) window.addEventListener(type, () => clack.unlock(), { once: true });

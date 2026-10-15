@@ -2,11 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { BLANK_GRID, CELLS, CHARSET, COLS, ROWS, flipSteps, isGrid } from './charset';
 
 describe('charset', () => {
-  it('is a 6x22 board of 132 cells', () => {
-    expect(ROWS).toBe(6);
+  it('is a 10x22 board of 220 cells', () => {
+    expect(ROWS).toBe(10);
     expect(COLS).toBe(22);
-    expect(CELLS).toBe(132);
-    expect(BLANK_GRID).toHaveLength(132);
+    expect(CELLS).toBe(220);
+    expect(BLANK_GRID).toHaveLength(220);
   });
 
   it('starts with space and has no duplicate characters', () => {
@@ -31,7 +31,7 @@ describe('charset', () => {
   it('validates grids', () => {
     expect(isGrid(BLANK_GRID)).toBe(true);
     expect(isGrid('A')).toBe(false);
-    expect(isGrid('~'.repeat(132))).toBe(false);
+    expect(isGrid('~'.repeat(220))).toBe(false);
     expect(isGrid(42)).toBe(false);
   });
 });

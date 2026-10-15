@@ -1,4 +1,4 @@
-import { CELLS, CHARSET, COLOR_HEX, COLS, ROWS, charIndex, type Grid } from '../../shared/board/charset';
+import { CELLS, CHARSET, COLOR_HEX, COLS, charIndex, type Grid } from '../../shared/board/charset';
 import { computeMetrics, tileOrigin, type Metrics } from './metrics';
 
 const PAGE_BG = '#0a0a0a';
@@ -22,8 +22,6 @@ export interface RendererOptions {
   flipMs?: number;
   /** Fraction of the canvas the board may fill. */
   fill?: number;
-  /** Blank rows drawn above and below the grid. */
-  marginRows?: number;
   /** Called once per completed flap, for sound. */
   onStep?: () => void;
 }
@@ -40,7 +38,6 @@ export class BoardRenderer {
   private readonly ctx: CanvasRenderingContext2D;
   private readonly instant: boolean;
   private readonly fill: number;
-  private readonly marginRows: number;
   private readonly tiles: Tile[] = [];
   private atlas!: HTMLCanvasElement;
   private m!: Metrics;
@@ -54,7 +51,6 @@ export class BoardRenderer {
     this.instant = opts.instant ?? false;
     this.flipMs = opts.flipMs ?? 70;
     this.fill = opts.fill ?? 0.95;
-    this.marginRows = opts.marginRows ?? 0;
     this.onStep = opts.onStep;
     for (let i = 0; i < CELLS; i++) {
       this.tiles.push({ x: 0, y: 0, row: Math.floor(i / COLS), col: i % COLS, cur: 0, target: 0, busy: false, startAt: 0, flipStart: 0 });
@@ -69,7 +65,7 @@ export class BoardRenderer {
     const h = Math.max(1, Math.round(this.canvas.clientHeight * dpr));
     this.canvas.width = w;
     this.canvas.height = h;
-    this.m = computeMetrics(w, h, this.fill, this.marginRows);
+    this.m = computeMetrics(w, h, this.fill);
     for (const t of this.tiles) Object.assign(t, tileOrigin(this.m, t.row, t.col));
     this.buildAtlas();
     this.ctx.fillStyle = PAGE_BG;
@@ -77,11 +73,6 @@ export class BoardRenderer {
     this.ctx.fillStyle = BOARD_BG;
     this.ctx.fillRect(this.m.boardX, this.m.boardY, this.m.boardW, this.m.boardH);
     for (const t of this.tiles) this.drawTile(t, 0);
-    for (let k = 1; k <= this.marginRows; k++) {
-      for (const row of [-k, ROWS - 1 + k]) {
-        for (let col = 0; col < COLS; col++) this.drawTile({ ...tileOrigin(this.m, row, col), row, col, cur: 0, target: 0, busy: false, startAt: 0, flipStart: 0 }, 0);
-      }
-    }
   }
 
   setGrid(grid: Grid): void {
