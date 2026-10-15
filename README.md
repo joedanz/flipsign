@@ -1,6 +1,6 @@
 <h1 align="center"><img src="docs/images/logo.png" alt="FlipSign" width="560"></h1>
 
-A 6×22 split-flap display for your TV. A small Node server decides what the board says (a clock, the weather forecast, quotes, or a message you send from your phone), and a full-screen web page animates the flips, clack and all.
+A full-screen split-flap display for your TV: a 22-column board of flaps with six lines for text. A small Node server decides what the board says (a clock, the weather forecast, quotes, or a message you send from your phone), and a full-screen web page animates the flips, clack and all.
 
 ![The display](docs/images/display.png)
 
@@ -122,7 +122,7 @@ Other ways to run the display on a Fire TV (Fully Kiosk Browser) and troubleshoo
 
 ## How it works
 
-The server computes the grid (a 132-character string) and pushes it to the display and control pages over Server-Sent Events. The display page keeps the last grid on screen if the connection drops and reconnects quietly. The full design is in [docs/design.md](docs/design.md).
+The server computes the text grid, 6 rows by 22 columns (a 132-character string), and pushes it to the display and control pages over Server-Sent Events. The display draws it as a 10×22 board, adding two blank rows above and below so the board fills a 16:9 screen. It keeps the last grid on screen if the connection drops and reconnects quietly. The full design is in [docs/design.md](docs/design.md).
 
 ```
 src/shared/   board charset and text layout (used by both server and browser)
