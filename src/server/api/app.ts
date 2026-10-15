@@ -22,6 +22,8 @@ export interface AppDeps {
   onWeatherChange: () => void;
   /** Directory of built web pages (omitted in tests). */
   staticRoot?: string;
+  /** Sent to every display on connect so pages from an older build reload themselves. */
+  buildId?: string;
 }
 
 const DURATION_MS = { '15m': 15 * 60_000, '1h': 3_600_000, '4h': 4 * 3_600_000 } as const;
@@ -225,6 +227,7 @@ export function createApp(deps: AppDeps) {
           .then(() => stream.writeSSE({ event: e.event, data: JSON.stringify(e.data) }))
           .catch(() => {});
       };
+      chain = stream.writeSSE({ event: 'hello', data: JSON.stringify({ buildId: deps.buildId ?? 'dev' }) }).catch(() => {});
       hub.snapshot().forEach(send);
       const unsubscribe = hub.subscribe(send);
       const aborted = new Promise<void>((resolve) => stream.onAbort(resolve));

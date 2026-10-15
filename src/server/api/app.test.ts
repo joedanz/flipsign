@@ -276,11 +276,22 @@ describe('GET /events', () => {
     const res = await h.app.request('/events');
     expect(res.headers.get('content-type')).toContain('text/event-stream');
     const reader = res.body!.getReader();
-    const first = new TextDecoder().decode((await reader.read()).value);
-    expect(first).toContain('event: grid');
+    let text = '';
+    while (!text.includes('event: grid')) text += new TextDecoder().decode((await reader.read()).value);
+    expect(text.indexOf('event: hello')).toBeLessThan(text.indexOf('event: grid'));
     expect(h.hub.size).toBe(1);
     await reader.cancel();
     await vi.waitFor(() => expect(h.hub.size).toBe(0));
+  });
+});
+
+describe('GET /events build id', () => {
+  it('opens every stream with a hello carrying the build id', async () => {
+    const h = makeApp({ buildId: 'abc123' });
+    const reader = (await h.app.request('/events')).body!.getReader();
+    const first = new TextDecoder().decode((await reader.read()).value);
+    expect(first).toMatch(/^event: hello\ndata: \{"buildId":"abc123"\}/);
+    await reader.cancel();
   });
 });
 

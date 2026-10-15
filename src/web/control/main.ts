@@ -4,6 +4,7 @@ import { setupCompose } from './compose';
 import { renderQuotes, setupQuotes } from './quotes';
 import { renderRotation, setupRotation } from './rotation';
 import { renderSettings, setupSettings } from './settings';
+import { watchBuild } from '../shared/buildWatcher';
 import { setupTabs } from './tabs';
 import { $, attempt } from './ui';
 
@@ -44,9 +45,12 @@ async function load(): Promise<void> {
   renderSettings(state);
 }
 
+const onBuild = watchBuild(); // reload after a server upgrade, so the page never runs stale code
+
 function connect(): void {
   const es = new EventSource('/events');
   es.addEventListener('state', () => void load());
+  es.addEventListener('hello', (e) => onBuild((JSON.parse((e as MessageEvent<string>).data) as { buildId: string }).buildId));
   es.addEventListener('grid', (e) => live.setGrid((JSON.parse((e as MessageEvent<string>).data) as { grid: string }).grid));
   es.onerror = () => {
     if (es.readyState === EventSource.CLOSED) setTimeout(connect, 3000);
