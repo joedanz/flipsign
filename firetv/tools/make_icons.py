@@ -57,9 +57,13 @@ def icon(size, folder):
     s = size * scale
     img = Image.new('RGBA', (s, s), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    d.rounded_rectangle([0, 0, s - 1, s - 1], radius=s // 6, fill='#0d0d0d')
-    pad = s // 7
-    tile(d, pad, pad, s - 2 * pad, s - 2 * pad, 'F', f=font(int(s * 0.5)))
+    d.rounded_rectangle([0, 0, s - 1, s - 1], radius=s // 8, fill='#0d0d0d')
+    # two flap tiles, "FS", filling the square (Fire OS letterboxes square icons in a wide slot)
+    pad, gap = s // 14, s // 28
+    tw, th = (s - 2 * pad - gap) // 2, s - 4 * pad
+    f = font(int(tw * 1.05))
+    for i, ch in enumerate('FS'):
+        tile(d, pad + i * (tw + gap), 2 * pad, tw, th, ch, f=f)
     out = os.path.join(RES, folder)
     os.makedirs(out, exist_ok=True)
     img.resize((size, size), Image.LANCZOS).save(os.path.join(out, 'ic_launcher.png'), optimize=True)
