@@ -1,4 +1,4 @@
-# FlipSign
+<h1 align="center"><img src="docs/images/logo.png" alt="FlipSign" width="560"></h1>
 
 A 6×22 split-flap display for your TV. A small Node server decides what the board says (a clock, the weather forecast, quotes, or a message you send from your phone), and a full-screen web page animates the flips, clack and all.
 

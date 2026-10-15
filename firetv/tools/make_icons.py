@@ -76,7 +76,50 @@ def icon(size, folder):
     img.resize((size, size), Image.LANCZOS).save(os.path.join(out, 'ic_launcher.png'), optimize=True)
 
 
+DOCS = os.path.join(os.path.dirname(__file__), '..', '..', 'docs', 'images')
+
+
+def word_row(d, word, x0, y0, tw, th, gap, f):
+    for i, ch in enumerate(word):
+        tile(d, x0 + i * (tw + gap), y0, tw, th, ch, f=f)
+
+
+def color_strip(d, cx, y, cw, ch, gap):
+    x0 = cx - (len(COLORS) * cw + (len(COLORS) - 1) * gap) // 2
+    for i, c in enumerate(COLORS):
+        tile(d, x0 + i * (cw + gap), y, cw, ch, color=c)
+
+
+def logo():
+    """README header: FLIPSIGN on flap tiles, transparent background, 2x for sharp rendering."""
+    tw, th, gap, pad = 120, 168, 10, 8
+    w = 8 * tw + 7 * gap + 2 * pad
+    strip_h, strip_gap = 36, 22
+    img = Image.new('RGBA', (w, th + strip_gap + strip_h + 2 * pad), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    word_row(d, 'FLIPSIGN', pad, pad, tw, th, gap, font(120))
+    color_strip(d, w // 2, pad + th + strip_gap, 96, strip_h, gap)
+    os.makedirs(DOCS, exist_ok=True)
+    img.save(os.path.join(DOCS, 'logo.png'), optimize=True)
+
+
+def social_preview():
+    """1280x640 image for GitHub's social preview (upload in repo Settings → General)."""
+    w, h, scale = 1280, 640, 2
+    img = Image.new('RGB', (w * scale, h * scale), '#0d0d0d')
+    d = ImageDraw.Draw(img)
+    tw, th, gap = 118 * scale, 166 * scale, 10 * scale
+    x0 = (w * scale - (8 * tw + 7 * gap)) // 2
+    word_row(d, 'FLIPSIGN', x0, 150 * scale, tw, th, gap, font(118 * scale))
+    color_strip(d, w * scale // 2, 350 * scale, 70 * scale, 26 * scale, gap)
+    d.text((w * scale // 2, 470 * scale), 'A split-flap display for your TV', fill='#dddddd', font=font(44 * scale), anchor='mm')
+    d.text((w * scale // 2, 530 * scale), 'Clock · weather · quotes · messages from your phone', fill='#888888', font=font(30 * scale), anchor='mm')
+    img.resize((w, h), Image.LANCZOS).save(os.path.join(DOCS, 'social-preview.png'), optimize=True)
+
+
 if __name__ == '__main__':
+    logo()
+    social_preview()
     banner()
     for size, folder in [(48, 'mipmap-mdpi'), (72, 'mipmap-hdpi'), (96, 'mipmap-xhdpi'), (144, 'mipmap-xxhdpi'), (192, 'mipmap-xxxhdpi')]:
         icon(size, folder)
