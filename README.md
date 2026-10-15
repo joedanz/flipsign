@@ -6,8 +6,6 @@ https://github.com/user-attachments/assets/9059fb90-1e44-49bc-bb1b-dbad0c0aa0f8
 
 It runs as two pieces: a **server** on any always-on machine with Node 22+ (a Mac mini, a Raspberry Pi, a NAS…), and a **display**, which is just a web page. Show it on a TV with the included [Fire TV app](#fire-tv-app), or with any computer or device that has a browser.
 
-![The display](docs/images/display.png)
-
 ## Features
 
 - **Rotating screens:** clock, 3-day weather forecast ([Open-Meteo](https://open-meteo.com/), no API key), and a deck of 50+ built-in quotes you can switch on and off or add to.
